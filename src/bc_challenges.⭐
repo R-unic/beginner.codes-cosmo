@@ -1,0 +1,81 @@
+use "http"
+
+string->uint Status = {{
+  Success -> 200,
+  Failed -> 1,
+  Exception -> 2
+}}
+
+class Result {
+  public int index
+  public any expected
+  public mut any got
+  public mut uint status
+
+  public Result fn construct(int index, any expected) {
+    $->index = index
+    $->expected = expected
+  }
+}
+
+string->any[] fn get_tests(uint challenge) {
+  string url = "https://raw.githubusercontent.com/beginner-codes/challenges/main/weekday/test_cases_%{challenge}.json"
+  HTTP::fetch(url, &string->any[] (string->any res): {
+    if res::status_code == 404
+      throw new Exception("Challenge %{challenge} was not found.")
+
+    res::body->json
+  })
+}
+
+Result[] fn run_tests(string->any[] tests, func solution) {
+  mut Result[] results = []
+
+  every string->any test_case in tests {
+    mut Result result = new Result(tests.index(test_case), test_case["return"])
+
+    try
+      result.got = solution(*test_case.args)
+    catch Exception ex {
+      result.status = Status::Exception
+      result.got = ex
+    } finally
+      unless result.got == test_case["return"]
+        result.status = Status::Failed
+
+    results << result
+  }
+
+  results
+}
+
+void fn show_results(uint challenge, Result[] results, int total_tests) {
+  mut uint failures = 0
+  every Result result in results
+    if result.status == Status::Failed {
+      puts("Test %{result.index} failed:  Expected %{result.expected}, got %{<string>result.got}.")
+      ++failures
+    } else if result.status == Status::Exception {
+      puts("Test %{result.index} failed:  %{<string>result.got}.")
+      ++failures
+    }
+
+  if failures > 0
+    puts("")
+
+  puts("---- Challenge %{challenge} Results ----")
+  puts("%{total_tests - failures} passed, %{failures} failed")
+
+  if failures == 0
+    puts("\n**** Great job!!! ****")
+}
+
+void fn test(uint challenge, func solution) {
+  string->any[] tests = get_tests(challenge)
+  Result[] results = run_tests(tests, solution)
+  show_results(challenge, results, #tests)
+}
+
+public string->func BeginnerCodes = {{
+  test -> test
+}}
