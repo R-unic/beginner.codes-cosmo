@@ -1,0 +1,8 @@
+name: bc_challenges
+version: 0.1.0
+
+entry_point: src/bc_challenges.⭐
+authors:
+  - R-unic
+
+cosmo: ^0.6.4
