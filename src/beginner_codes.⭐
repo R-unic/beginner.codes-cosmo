@@ -72,12 +72,8 @@ uint fn show_results(uint challenge, Result[] results, int total_tests) {
   failures
 }
 
-void fn test(uint challenge, func solution) {
+public void fn test(uint challenge, func solution) {
   string->any[] tests = get_tests(challenge)
   Result[] results = run_tests(tests, solution)
   uint failures = show_results(challenge, results, #tests)
 }
-
-public string->func BeginnerCodes = {{
-  test -> test
-}}
