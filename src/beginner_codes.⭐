@@ -1,4 +1,4 @@
-use * from "http"
+use fetch from "http"
 
 string->uint Status = {{
   Success -> 200,
@@ -20,7 +20,7 @@ class Result {
 
 string->any[] fn get_tests(uint challenge) {
   string url = "https://raw.githubusercontent.com/beginner-codes/challenges/main/weekday/test_cases_%{challenge}.json"
-  HTTP::fetch(url, &string->any[] (string->any res): {
+  fetch(url, &string->any[] (string->any res): {
     if res::status_code == 404
       throw new Exception("Challenge %{challenge} was not found.")
 
