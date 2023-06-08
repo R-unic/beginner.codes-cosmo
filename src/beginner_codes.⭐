@@ -1,4 +1,4 @@
-use fetch from "http"
+use request from "http"
 
 string->uint Status = {{
   Success -> 200,
@@ -40,8 +40,12 @@ Result[] fn run_tests(string->any[] tests, Function solution) {
       result.status = Status::Exception
       result.got = ex
     } finally
-      unless result.got == test_case["return"]?
-        result.status = Status::Failed
+      if result.got is char and test_case["return"]? is string {
+        unless <string>result.got == test_case["return"]
+          result.status = Status::Failed
+      } else
+        unless result.got == test_case["return"]?
+          result.status = Status::Failed
 
     results << result
   }
