@@ -28,7 +28,7 @@ string->any[] fn get_tests(uint challenge) {
   })
 }
 
-Result[] fn run_tests(string->any[] tests, func solution) {
+Result[] fn run_tests(string->any[] tests, Function solution) {
   mut Result[] results = []
 
   every string->any test_case in tests {
@@ -72,7 +72,7 @@ uint fn show_results(uint challenge, Result[] results, int total_tests) {
   failures
 }
 
-public void fn test(uint challenge, func solution) {
+public void fn test(uint challenge, Function solution) {
   string->any[] tests = get_tests(challenge)
   Result[] results = run_tests(tests, solution)
   uint failures = show_results(challenge, results, #tests)
