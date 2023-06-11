@@ -22,7 +22,7 @@ string->any[] fn get_tests(uint challenge) {
   string url = "https://raw.githubusercontent.com/beginner-codes/challenges/main/weekday/test_cases_%{challenge}.json"
   request(url, &string->any[] (string->any res): {
     if res::status_code == 404
-      throw new Exception("Challenge %{challenge} was not found.", 2)
+      throw new Exception("Challenge %{challenge} was not found.", 3)
 
     res::body->json
   })
@@ -57,10 +57,10 @@ uint fn show_results(uint challenge, Result[] results, int total_tests) {
   mut uint failures = 0
   every Result result in results
     if result.status == Status::Failed {
-      throw new Exception("Test %{result.index + 1} failed:  Expected %{result.expected}, got %{<string>result.got}.", 2)
+      throw new Exception("Test %{result.index + 1} failed:  Expected %{result.expected}, got %{<string>result.got}.", 3)
       ++failures
     } else if result.status == Status::Exception {
-      throw new Exception("Test %{result.index + 1} failed:  %{<string>result.got}.", 2)
+      throw new Exception("Test %{result.index + 1} failed:  %{<string>result.got}.", 3)
       ++failures
     }
 
