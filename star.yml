@@ -1,8 +1,8 @@
 name: beginner-codes
-version: 0.1.1
+version: 0.1.2
 
 repository: R-unic/beginner.codes-cosmo
-entry_point: src/beginner_codes.⭐
+entry_point: src/beginner-codes.⭐
 authors:
   - R-unic
 
