@@ -1,8 +1,9 @@
-name: bc_challenges
+name: beginner-codes
 version: 0.1.0
 
-entry_point: src/bc_challenges.⭐
+repository: R-unic/beginner.codes-cosmo
+entry_point: src/beginner_codes.⭐
 authors:
   - R-unic
 
-cosmo: ^0.6.4
+cosmo: ^0.9.8
